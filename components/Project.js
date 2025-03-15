@@ -6,13 +6,11 @@ import React, { useEffect, useState } from "react"
 
 
 export default function Project({ project, isFavorite = false }) {
-    console.log(JSON.parse(localStorage.getItem('favorites')));
 
     const [fave, setFave] = useState(JSON.parse(localStorage.getItem('favorites')) || [])
 
     const changeValue = (id) => {
         if (fave.includes(id)) {
-            console.log(fave);
 
             setFave(preValue => preValue.filter(item => item !== id));
             return;
@@ -34,6 +32,7 @@ export default function Project({ project, isFavorite = false }) {
                 <span style={{ cursor: 'pointer' }} onClick={() => changeValue(project.id)} className={fave.includes(project.id) ? 'text-yellow-500' : 'text-gray-500 '}>★</span>
             </div>
             <p className="text-sm text-gray-500">تاریخ تحویل: {project.delivery_date}</p>
+            <p className="text-sm text-gray-500">قیمت: {project.price}</p>
             <div className="mt-4">
                 <Link className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href={`/Project/${project.id}`}>
                     جزئیات پروژه
