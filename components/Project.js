@@ -2,29 +2,31 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
+import {setCookie} from "cookies-next";
 
 
-export default function Project({ project, isFavorite = false }) {
+export default function Project({ project }) {
 
-    const [fave, setFave] = useState(JSON.parse(localStorage.getItem('favorites')) || [])
+    const [fave, setFave] = useState(localStorage.getItem('favorites') || []);
 
-    const changeValue = (id) => {
-        if (fave.includes(id)) {
-
-            setFave(preValue => preValue.filter(item => item !== id));
-            return;
+    const changeValue = (id) => {   
+        let getStorage = JSON.parse(localStorage.getItem('favorites') || []);
+        
+        if (getStorage.includes(id)) {
+            getStorage = getStorage.filter((item) => item !== id);
+        }else{
+            getStorage.push(id);
         }
-        setFave(fave => [...fave, id]);
+
+        localStorage.setItem('favorites', JSON.stringify(getStorage));
+        setCookie('favorites' , JSON.stringify(getStorage))
+        setFave(getStorage)
     }
 
 
-    useEffect(() => {
-        localStorage.setItem('favorites', JSON.stringify(fave));
-    }, [fave])
-
     return (
-
+        
         <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md">
             <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{project.name}</h2>
             <p className="mb-4 font-normal text-gray-700">{project.description}</p>

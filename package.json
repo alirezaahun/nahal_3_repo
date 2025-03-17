@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@smastrom/react-rating": "^1.5.0",
+    "cookies-next": "^5.1.0",
     "json-server": "^1.0.0-beta.3",
     "next": "15.2.2",
     "react": "^19.0.0",

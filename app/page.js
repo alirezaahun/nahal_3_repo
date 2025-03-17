@@ -1,9 +1,9 @@
 
-
-
 import Project from "@/components/Project";
 import SearchFilter from "@/components/SearchFilter";
 import { Rating } from "@smastrom/react-rating";
+import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 import Image from "next/image";
 
 
@@ -13,13 +13,24 @@ const getPosts = async (status , title) => {
   return await data;
 }
 
-
-export default async function Home({ searchParams }) {
+export default async function Home({ searchParams , data }) {
+  
   const status = await searchParams?.state || '';
   const title = await searchParams?.title || '';
   
 
-  const projects = await getPosts(status , title);
+  let faveFilter = await searchParams?.favorite || false;
+  
+
+  let projects = await getPosts(status , title);
+
+  if(faveFilter){
+    let getFavorite = (await cookies()).get('favorites')?.value || [];
+    projects = projects.filter((item) => {
+        return getFavorite.includes(item.id)
+    })
+    
+  }
 
   return (
 
